@@ -1,0 +1,131 @@
+<div>
+  <article class="vh-80 dt w-100">
+    <div class="f4 fw6 pt2 tc" *ngIf="parkings && parkings.length > 0">
+      Parking Details
+      <!-- <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{user.token}}" /> -->
+    </div>
+    <div *ngIf="parkings && parkings.length == 0">No Active Parkings</div>
+    <div *ngIf="parkings && parkings.length >= 1">
+      <table
+        matSort
+        mat-table
+        *ngIf="parkings && parkings.length > 0"
+        [dataSource]="parkingSource"
+        multiTemplateDataRows
+        class="w-100 pv3 overflow-hidden pointer"
+      >
+        <ng-container matColumnDef="vehicleNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Vehicle Number
+          </th>
+          <td mat-cell *matCellDef="let parking">
+            {{ parking && parking.vehicleNumber }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="driverName">
+          <th mat-header-cell *matHeaderCellDef>Driver Name</th>
+          <td mat-cell *matCellDef="let parking">
+            {{ parking && parking.driverName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions ( Check In / Out )</th>
+          <td mat-cell *matCellDef="let parking">
+            <button
+              mat-icon-button
+              aria-label="Check In"
+              matTooltip="Check In User"
+              matTooltipClass="mono-tooltip"
+              [disabled]="parking.isActive"
+              (click)="checkIn(parking.userId)"
+            >
+              <mat-icon
+                [ngClass]="{
+                  'bg-washed-blue br5': parking && !parking.isActive
+                }"
+                >done</mat-icon
+              >
+            </button>
+            <button
+              mat-icon-button
+              aria-label="Check Out"
+              matTooltip="Check Out User"
+              matTooltipClass="mono-tooltip"
+              [disabled]="!parking.isActive"
+              (click)="checkOut(parking.userId)"
+            >
+              <mat-icon
+                [ngClass]="{
+                  'bg-washed-blue br5': parking && parking.isActive
+                }"
+                >done_all</mat-icon
+              >
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let parking"
+            [attr.colspan]="parkingColumnsToDisplay.length"
+          >
+            <div
+              class="table-element-detail"
+              [@detailExpand]="
+                parking == expandedElement ? 'expanded' : 'collapsed'
+              "
+            >
+              <div
+                class="lh-copy pv1 db"
+                *ngIf="parking && parking.withCleaningService"
+              >
+                CleaningService :
+                <mat-checkbox
+                  color="primary"
+                  [(ngModel)]="parking && parking.withCleaningService"
+                  [disabled]="true"
+                >
+                </mat-checkbox>
+              </div>
+              <div
+                class="lh-copy pv1 db"
+                *ngIf="parking && parking.cleaningRate"
+              >
+                Cleaning Rate : {{ parking && parking.cleaningRate }}
+              </div>
+
+              <div class="lh-copy pv1 db" *ngIf="parking && parking.isActive">
+                UserCheckIn :
+                <span class="mono b">
+                  {{
+                    parking && parking.userCheckIn | date: 'dd/MM/YY  hh:mm a'
+                  }}
+                </span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="parkingColumnsToDisplay"></tr>
+        <tr
+          class="pointer"
+          mat-row
+          *matRowDef="let element; columns: parkingColumnsToDisplay"
+          class="table-element-row"
+          [class.table-expanded-row]="expandedElement === element"
+          (click)="
+            expandedElement = expandedElement === element ? null : element
+          "
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedDetail']"
+          class="table-detail-row pointer"
+        ></tr>
+      </table>
+    </div>
+  </article>
+</div>

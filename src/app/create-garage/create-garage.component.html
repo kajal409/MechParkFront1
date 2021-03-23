@@ -1,0 +1,156 @@
+<div class="flex flex-column justify-between">
+  <main class="pa4 black-80 spacer">
+    <form
+      class="measure center mt4 pt4"
+      [formGroup]="createGarageForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
+        <legend class="f4 fw4 ph0 mh0">Create Garage</legend>
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Name</mat-label>
+            <input
+              formControlName="name"
+              matInput
+              placeholder=""
+            />
+            <mat-error *ngIf="f.name.hasError('required')">
+              Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Address</mat-label>
+            <textarea
+              formControlName="address"
+              matInput
+              placeholder="Address"
+            ></textarea>
+            <mat-error *ngIf="f.address.hasError('required')">
+              Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>City</mat-label>
+            <input formControlName="city" matInput placeholder="John Doe" />
+            <mat-error *ngIf="f.city.hasError('required')">
+              Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>State</mat-label>
+            <input
+              formControlName="state"
+              matInput
+              placeholder="John Doe"
+            />
+            <mat-error *ngIf="f.state.hasError('required')">
+              Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Phone</mat-label>
+            <input
+              formControlName="phone"
+              type="text"
+              matInput
+              placeholder="Phone"
+            />
+            <mat-error *ngIf="f.phone.hasError('required')">
+              Required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                f.phone.hasError('minlength') ||
+                f.phone.hasError('maxlength') ||
+                f.phone.hasError('pattern')
+              "
+            >
+              Invalid Phone Number
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Parking Rate</mat-label>
+            <input
+              formControlName="parkingRate"
+              matInput
+              placeholder="100"
+            />
+            <span matPrefix class="ph2">₹</span>
+            <mat-error *ngIf="f.parkingRate.hasError('required')">
+              Required
+            </mat-error>
+            <mat-error *ngIf="f.parkingRate.hasError('pattern')">
+              Enter a Number
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="mv4">
+          <mat-checkbox
+            labelPosition="after"
+            color="primary"
+            formControlName="hasCleaningService"
+            name="hasCleaningService"
+            (change)="updateCleaningRate($event)"
+            >Cleaning Service</mat-checkbox
+          >
+        </div>
+
+        <div class="mt2" *ngIf="hasCleaningServiceFlag">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Cleaning Rate</mat-label>
+            <input
+              formControlName="cleaningRate"
+              matInput
+              placeholder="100"
+            />
+            <span matPrefix class="ph2">₹</span>
+            <mat-error
+              *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')"
+            >
+              Required
+            </mat-error>
+            <mat-error
+              *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')"
+            >
+              Enter a Number
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </fieldset>
+      <div class="mv2">
+        <button class="w-100" mat-stroked-button color="primary" [disabled]="!createGarageForm.valid">Create</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="pv4 ph3 ph5-m ph6-l mid-gray">
+    <small class="f6 db tc"
+      >© 2021 <b class="ttu">MechPark</b> All Rights Reserved</small
+    >
+    <div class="tc">
+      <a href="/language/" title="Language" class="f6 dib ph2 link mid-gray dim"
+        >Language</a
+      >
+      <a href="/terms/" title="Terms" class="f6 dib ph2 link mid-gray dim"
+        >Terms of Use</a
+      >
+      <a href="/privacy/" title="Privacy" class="f6 dib ph2 link mid-gray dim"
+        >Privacy</a
+      >
+    </div>
+  </footer>
+</div>

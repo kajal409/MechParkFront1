@@ -1,0 +1,150 @@
+<div class="app-container">
+  <header class="bg-white inter br--bottom br4">
+    <nav class="dt w-100 border-box pa3 ph5-ns bb b--black">
+      <a
+        *ngIf="user && user.role == 'Admin'"
+        routerLink="/admin"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="user && user.role == 'ParkingManager'"
+        routerLink="/parkingmanager"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="user && user.role == 'AllocationManager'"
+        routerLink="/allocationmanager"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="user && user.role == 'User'"
+        routerLink="/user"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="!user"
+        routerLink="/"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <div class="dtc v-mid w-50 tc">
+        <!-- <div class="di pa2 pv3 v-mid">
+          <svg
+            width="27"
+            height="25"
+            viewBox="0 0 27 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.5 13L10.0355 16.4645C6.88571 19.6143 1.5 17.3835 1.5 12.9289V6C1.5 3.23858 3.73858 1 6.5 1H8.5C11.2614 1 13.5 3.23858 13.5 6V25M13.5 13L17.0147 9.48529C20.146 6.35401 25.5 8.5717 25.5 13V13C25.5 17.4283 20.146 19.646 17.0147 16.5147L13.5 13Z"
+              stroke="#357EDD"
+              stroke-width="2"
+            />
+          </svg>
+        </div> -->
+      </div>
+      <div class="dtc v-mid w-25 tc">
+        <div
+          *ngIf="user && user.token; then thenNavLogOut; else elseNavLogOut"
+        ></div>
+        <ng-template #thenNavLogOut>
+          <button
+            class="pa2 ba b--light-blue shadow"
+            mat-stroked-button
+            [matMenuTriggerFor]="menu"
+            matTooltip="View User Info"
+            matTooltipClass="mono-tooltip"
+          >
+            <!-- <mat-icon aria-hidden="false" aria-label="Account Information">account_circle</mat-icon> -->
+            <div class="flex items-center">
+              <span class="pa2 fw3">{{ userInfo && userInfo.name }}</span>
+              <img
+                src="https://pawtar.herokuapp.com/{{
+                  userInfo && userInfo.email
+                }}"
+                class="br-100 h2 w2"
+                alt="avatar"
+              />
+            </div>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="" disabled class="black-pr">
+              <mat-icon
+                aria-hidden="false"
+                class="black-pr"
+                aria-label="Greetings"
+                >sentiment_satisfied_alt</mat-icon
+              >
+              Hi, {{ userInfo && userInfo.name }}
+            </button>
+            <button mat-menu-item routerLink="/edit-user">
+              <mat-icon aria-hidden="false" aria-label="Edit Profile"
+                >edit</mat-icon
+              >
+              Edit Profile
+            </button>
+            <button mat-menu-item (click)="delete()">
+              <mat-icon aria-hidden="false" aria-label="Delete Profile"
+                >delete</mat-icon
+              >
+              Delete Account
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon aria-hidden="false" aria-label="Delete Profile"
+                >logout</mat-icon
+              >
+              Logout
+            </button>
+          </mat-menu>
+        </ng-template>
+        <ng-template #elseNavLogOut>
+          <button
+            class="pa2 ba b--light-purple"
+            mat-stroked-button
+            color="accent"
+            routerLink="/login"
+          >
+            login
+          </button>
+        </ng-template>
+      </div>
+    </nav>
+  </header>
+  <div
+    class="vh-100"
+  >
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<ngx-loading-bar
+  [includeSpinner]="false"
+  height="4px"
+  color="#A463F2"
+></ngx-loading-bar>
+<!-- <router-outlet></router-outlet> -->

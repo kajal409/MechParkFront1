@@ -1,0 +1,62 @@
+<div *ngIf="parkingManager && parkingManager.garageId < 1" class="mh5">
+  <article class="vh-80 dt w-100">
+    <div class="dtc v-mid tc ph3 ph4-l">
+      <h1 class="f6 f2-m f-subheadline-l fw6 tc">
+        <button mat-stroked-button routerLink="create-garage">
+          Create Garage
+        </button>
+      </h1>
+    </div>
+  </article>
+</div>
+
+<div *ngIf="parkingManager && parkingManager.garageId >= 1">
+  <article class="vh-80 dt w-100">
+    <div class="dtc v-mid ph3 ph4-l">
+      <div class="f4 fw6 pt2 tc">
+        <img
+          class="h1 w1"
+          src="https://pawtar.herokuapp.com/{{ garage && garage.id }}"
+          alt="Avatar of Garage"
+        />
+        <div class="pa2">
+          {{ garage && garage.name }}
+        </div>
+        <article class="pa3 cf">
+          <div class="ph3 fl w-50 f5 tr">Occupied Capacity</div>
+          <div class="ph3 fl w-50 f5 tl">
+            {{ garage && garage.occupiedCapacity }}
+          </div>
+        </article>
+        <article class="pa3 cf">
+          <div class="ph3 fl w-50 f5 tr">Total Capacity</div>
+          <div class="ph3 fl w-50 f5 tl">
+            {{ garage && garage.totalCapacity }}
+          </div>
+        </article>
+        <article class="pa3 cf">
+          <div class="ph3 fl w-50 f5 tr">Parking Rate</div>
+          <div class="ph3 fl w-50 f5 tl">
+            ₹ {{ garage && garage.parkingRate }}
+          </div>
+        </article>
+        <article class="pa3 cf" *ngIf="garage && garage.hasCleaningService">
+          <div class="ph3 fl w-50 f5 tr">Cleaning Rate</div>
+          <div class="ph3 fl w-50 f5 tl">
+            ₹
+            {{ garage && garage.cleaningRate }}
+          </div>
+        </article>
+      </div>
+      <article class="pa3 cf">
+        <div class="fl w-50 f5 tr">
+          <button mat-stroked-button routerLink="edit-garage">Edit</button>
+        </div>
+        <div class="fl w-50 f5 tl">
+          <button mat-stroked-button>Delete</button>
+        </div>
+      </article>
+      <mat-divider></mat-divider>
+    </div>
+  </article>
+</div>

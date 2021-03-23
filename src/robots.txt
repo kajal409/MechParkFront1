@@ -1,0 +1,273 @@
+<!-- <h1>
+        {{isGuest}}
+    </h1> -->
+  <div *ngIf="user && user.role === 'User'">
+    <div class="cover bg-left bg-center-l black">
+      <div class="pv3 pv4-m pv5-l">
+        <div class="tc pv3 pv4-m pv5-l ph3">
+          <h1>{{ userInfo && userInfo.name }}</h1>
+          <h2>{{ canPark }}</h2>
+        </div>
+        <a
+          *ngIf="user && user.role == 'User' && canPark"
+          routerLink="/book-parking"
+          class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+          >Book Parking</a
+        >
+        <button
+          mat-stroked-button
+          *ngIf="!canPark && parking"
+          color="primary"
+          (click)="checkIn()"
+          [disabled]="parking.isActive"
+        >
+          CheckIn
+        </button>
+        <button
+          mat-stroked-button
+          *ngIf="!canPark && parking"
+          color="primary"
+          (click)="checkOut()"
+          [disabled]="!parking.isActive"
+        >
+          CheckOut
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="user && user.role === 'AllocationManager'">
+    <div class="cover bg-left bg-center-l black">
+      <div class="pv3 pv4-m pv5-l">
+        <div class="tc-l pv3 pv4-m pv5-l ph3">
+          <h1>{{ allocationManager && allocationManager.name }}</h1>
+          <a
+            *ngIf="allocationManager"
+            routerLink="/create-space"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Create Space</a
+          >
+
+          <h2>
+            Total Spaces: {{ allocationManager && allocationManager.space }}
+          </h2>
+          <div *ngIf="allocationManager && allocationManager.space >= 1">
+            <table
+              class="tc-l pv3 pv4-m pv5-l ph3"
+              mat-table
+              [dataSource]="otherSpaces"
+            >
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef>Code</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element && element.code }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="occupiedCapacity">
+                <th mat-header-cell *matHeaderCellDef>Occupied Capacity</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element && element.occupiedCapacity }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="totalCapacity">
+                <th mat-header-cell *matHeaderCellDef>Total Capacity</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element && element.totalCapacity }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element" class="action-link">
+                  <button mat-button routerLink="edit-space/{{ element.id }}">
+                    Edit
+                  </button>
+                  <button mat-button (click)="deleteSpace(element.id)">
+                    Delete
+                  </button>
+                </td>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="user && user.role === 'ParkingManager'">
+    <div class="cover bg-left bg-center-l">
+      <div class="pv3 pv4-m pv5-l">
+        <div class="tc-l pv3 pv4-m pv5-l ph3">
+          <!-- <div class="pv2">
+            <button
+              mat-stroked-button
+              *ngIf="parkingManager && parkingManager.garageId < 1"
+              routerLink="/create-garage"
+            >
+              Create Garage
+            </button>
+          </div>
+
+          <h4
+            *ngIf="parkingManager && parkingManager.garageId > 0"
+            class="f6 no-underline dim dib v-mid black ph3 pv2 mb3"
+          >
+            {{ garage && garage.name }}
+          </h4>
+          <a
+            *ngIf="parkingManager && parkingManager.garageId > 0"
+            routerLink="/edit-garage"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Edit Garage</a
+          >
+          <a
+            *ngIf="parkingManager && parkingManager.garageId > 0"
+            (click)="deleteGarage()"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Delete Garage</a
+          >
+        </div> -->
+          <mat-toolbar color="accent">
+            <button
+              mat-icon-button
+              matTooltip="Application Menu"
+              (click)="sidenav.toggle()"
+            >
+              <mat-icon>settings</mat-icon>
+            </button>
+            Account Settings
+            <span style="flex: 1 1 auto"></span>
+            <div>
+              <button mat-icon-button matTooltip="Switch Apps">
+                <mat-icon>apps</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Notifications">
+                <mat-icon>notifications</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                matTooltip="My Account"
+                [matMenuTriggerFor]="accountMenu"
+              >
+                <mat-icon>account_circle</mat-icon>
+              </button>
+              <mat-menu #accountMenu [overlapTrigger]="false" yPosition="below">
+                <button mat-menu-item routerLink="#">
+                  <mat-icon>person</mat-icon><span>My Account</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>help</mat-icon><span>Help</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item>
+                  <mat-icon>exit_to_app</mat-icon>Logout
+                </button>
+              </mat-menu>
+            </div>
+          </mat-toolbar>
+          <mat-sidenav-container style="height: calc(100% - 64px); margin: 0">
+            <mat-sidenav
+              #sidenav
+              mode="side"
+              [class.mat-elevation-z4]="true"
+              style="width: 240px"
+            >
+              <mat-nav-list dense>
+                <mat-list-item routerLink="#"
+                  ><mat-icon>dashboard</mat-icon>Dashboard</mat-list-item
+                >
+                <mat-list-item routerLink="#"
+                  ><mat-icon>check_box</mat-icon>General</mat-list-item
+                >
+                <mat-list-item routerLink="#"
+                  ><mat-icon>person</mat-icon>Profile</mat-list-item
+                >
+                <mat-list-item routerLink="#"
+                  ><mat-icon>notification_important</mat-icon
+                  >Notification</mat-list-item
+                >
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                  <mat-expansion-panel-header>
+                    Preference
+                  </mat-expansion-panel-header>
+                  <mat-nav-list dense>
+                    <a mat-list-item routerLink="#"
+                      ><mat-icon>attach_money</mat-icon>Billing</a
+                    >
+                    <a mat-list-item routerLink="#"
+                      ><mat-icon>notification_important</mat-icon
+                      >Notification</a
+                    >
+                  </mat-nav-list>
+                </mat-expansion-panel>
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                  <mat-expansion-panel-header>
+                    Privacy
+                  </mat-expansion-panel-header>
+                  <mat-nav-list dense>
+                    <a mat-list-item routerLink="#"
+                      ><mat-icon>person_add</mat-icon>Partnership Request</a
+                    >
+                    <a mat-list-item routerLink="#"
+                      ><mat-icon>visibility</mat-icon>Profile Visibility</a
+                    >
+                  </mat-nav-list>
+                </mat-expansion-panel>
+              </mat-nav-list>
+            </mat-sidenav>
+            <mat-sidenav-content> </mat-sidenav-content>
+          </mat-sidenav-container>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isGuest">
+      <div
+        class="cover bg-left bg-center-l"
+        style="background-image: url(/assets/header.webp)"
+      >
+        <div class="bg-black-50 pv3 pv4-m pv5-l">
+          <div class="tc-l pv3 pv4-m pv5-l ph3">
+            <h1 class="f2 f2-m f1-l fw3 white-90 mb0 lh-title">
+              Park Timely with MecPark
+            </h1>
+            <h2 class="fw2 f3 white-80 mt3 mb4">
+              you just park, we'll worry about everything else
+            </h2>
+            <a
+              routerLink="/signup"
+              class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+              >Get Started</a
+            >
+            <span class="dib v-mid ph3 white-70 mb3">or know</span>
+            <a
+              routerLink="/how-it-works"
+              class="f6 no-underline dim dib v-mid white ba b--white br2 ph3 pv2 mb3"
+              >How it Works?</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="cover bg-left bg-center-l bg-navy">
+        <div class="pv3 pv4-m pv5-l">
+          <div class="tc-l pv3 pv4-m pv5-l ph3">
+            <h1 class="f2 f2-m f1-l fw3 white-90 mb0 lh-title">
+              Want an easy parking management?
+            </h1>
+            <h2 class="fw2 f3 white-80 mt3 mb4">
+              register below for hassle free management?
+            </h2>
+            <a
+              routerLink="/register"
+              class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+              >Register</a
+            >
+            <span class="dib v-mid ph3 white-70 mb3">or </span>
+            <a
+              routerLink="/trial"
+              class="f6 no-underline dim dib v-mid white ba b--white br2 ph3 pv2 mb3"
+              >See Trial</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

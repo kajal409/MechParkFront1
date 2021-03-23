@@ -1,0 +1,167 @@
+<div>
+  <article class="vh-80 dt w-100">
+    <div *ngIf="parkingHistories && parkingHistories.length == 0">
+      No Parking History
+    </div>
+    <div *ngIf="parkingHistories && parkingHistories.length > 0">
+      <mat-form-field class="w-100 pv2">
+        <mat-label>Filter Parking History</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="" #input />
+      </mat-form-field>
+      <table
+        matSort
+        mat-table
+        *ngIf="parkingHistories && parkingHistories.length > 0"
+        [dataSource]="parkingHistorySource"
+        multiTemplateDataRows
+        class="w-100 pv3 overflow-hidden pointer"
+      >
+        <ng-container matColumnDef="vehicleNumber">
+          <th mat-header-cell *matHeaderCellDef>
+            Vehicle Number
+          </th>
+          <td mat-cell *matCellDef="let parkingHistory">
+            {{ parkingHistory && parkingHistory.vehicleNumber }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="driverName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Driver Name</th>
+          <td mat-cell *matCellDef="let parkingHistory">
+            {{ parkingHistory && parkingHistory.driverName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
+          <td mat-cell *matCellDef="let parkingHistory">
+            <span class="mono b">
+              ₹ {{ parkingHistory && parkingHistory.cost | number }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="interval">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Interval</th>
+          <td mat-cell *matCellDef="let parkingHistory">
+            <span class="mono b">
+              {{ parkingHistory && parkingHistory.interval }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="spaceCode">
+          <th mat-header-cell *matHeaderCellDef>Space Code</th>
+          <td mat-cell *matCellDef="let parkingHistory">
+            {{
+              spaces[
+                parkingHistorySource.filteredData.indexOf(
+                  parkingHistory && parkingHistory
+                )
+              ] &&
+                spaces[
+                  parkingHistorySource.filteredData.indexOf(
+                    parkingHistory && parkingHistory
+                  )
+                ].code
+            }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let parkingHistory"
+            [attr.colspan]="parkingHistoryColumnsToDisplay.length"
+          >
+            <div
+              class="table-element-detail"
+              [@detailExpand]="
+                parkingHistory == expandedElement ? 'expanded' : 'collapsed'
+              "
+            >
+              <div class="overflow-auto">
+                <table class="f6 w-100 mw8 center" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th class="fw4 tl pv3 pr3 bg-white">User CheckIn</th>
+                      <th class="fw4 tl pv3 pr3 bg-white">User CheckOut</th>
+                      <th class="fw4 tl pv3 pr3 bg-white">Parking Cost</th>
+                      <th
+                        *ngIf="
+                          parkingHistory && parkingHistory.withCleaningService
+                        "
+                        class="fw4 tl pv3 pr3 bg-white"
+                      >
+                        Parking Cost
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="lh-copy">
+                    <tr>
+                      <td class="pv3 pr3">
+                        {{
+                          parkingHistory && parkingHistory.userCheckIn
+                            | date: 'dd/MM/YY  hh:mm a'
+                        }}
+                      </td>
+                      <td class="pv3 pr3">
+                        {{
+                          parkingHistory && parkingHistory.userCheckOut
+                            | date: 'dd/MM/YY  hh:mm a'
+                        }}
+                      </td>
+                      <td class="pv3 pr3">
+                        {{
+                          parkingHistory && parkingHistory.parkingCost | number
+                        }}
+                      </td>
+                      <td
+                        *ngIf="
+                          parkingHistory && parkingHistory.withCleaningService
+                        "
+                        class="pv3 pr3"
+                      >
+                        {{
+                          parkingHistory && parkingHistory.cleaningCost | number
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="parkingHistoryColumnsToDisplay"
+        ></tr>
+        <tr
+          class="pointer"
+          mat-row
+          *matRowDef="let element; columns: parkingHistoryColumnsToDisplay"
+          class="table-element-row"
+          [class.table-expanded-row]="expandedElement === element"
+          (click)="
+            expandedElement = expandedElement === element ? null : element
+          "
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedDetail']"
+          class="table-detail-row pointer"
+        ></tr>
+      </table>
+
+      <mat-paginator
+      [pageSizeOptions]="[10, 25, 32, 49]"
+      [length]="100"
+      [pageSize]="10"
+      showFirstLastButtons
+    ></mat-paginator>
+
+    </div>
+  </article>
+</div>

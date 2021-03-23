@@ -1,0 +1,227 @@
+<div class="flex flex-column justify-between">
+    <header class="bg-black inter">
+      <nav class="db dt-l w-100 mw8 center border-box pa3">
+        <a
+          routerLink="/"
+          class="db dtc-l v-mid mid-gray link dim w-100 w-25-l tc tl-l mb2 mb0-l"
+          title="Home"
+        >
+          <svg
+            width="27"
+            height="25"
+            viewBox="0 0 27 25"
+            legacy="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.5 13L10.0355 16.4645C6.88571 19.6143 1.5 17.3835 1.5 12.9289V6C1.5 3.23858 3.73858 1 6.5 1H8.5C11.2614 1 13.5 3.23858 13.5 6V25M13.5 13L17.0147 9.48529C20.146 6.35401 25.5 8.5717 25.5 13V13C25.5 17.4283 20.146 19.646 17.0147 16.5147L13.5 13Z"
+              stroke="white"
+              stroke-width="2"
+            />
+          </svg>
+        </a>
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+          <a mat-stroked-button color="accent" routerLink="/register">Register</a>
+          <a mat-stroked-button color="accent" routerLink="/login">Login</a>
+        </div>
+      </nav>
+    </header>
+  
+    <main class="pa4 black-80 spacer">
+      <div class="measure center mt4 pt4">
+        <!-- <div class="f3 fw5 ph0 mh0 tc georgia pb5">Book Parking</div> -->
+        <div class="f3 fw5 ph0 mh0 tc georgia pb5">
+          <!-- {{ selectedGarage }} {{ selectedGarageId }} - {{ selectedSpaceId }} -->
+        </div>
+        <div class="overflow-auto">
+          <table class="f6 w-100 center ba" cellspacing="0">
+            <caption>
+              Select Garage
+            </caption>
+            <thead>
+              <tr>
+                <th class="fw6 bb b--black tl pa3 pr3 bg-white">Garage</th>
+                <th class="fw6 bb b--black tl pa3 pr3 bg-white">Address</th>
+                <th class="fw6 bb b--black tl pa3 pr3 bg-white">
+                  Occupied / Total
+                </th>
+                <th class="fw6 bb b--black tl pa3 pr3 bg-white">Service(s)</th>
+              </tr>
+            </thead>
+            <tbody class="b lh-copy" *ngFor="let garage of garages">
+              <tr
+                class="pointer"
+                (click)="
+                  selectGarage(
+                    garage.id,
+                    garage.occupiedCapacity,
+                    garage.totalCapacity,
+                    garage.hasCleaningService
+                  )
+                "
+                [ngClass]="{
+                  'bg-lightest-blue':
+                    garage && garage.id == selectedGarageId && selectedGarage,
+                  'bg-washed-red':
+                    garage && garage.totalCapacity == garage.occupiedCapacity
+                }"
+              >
+                <td class="pa3 pr3 bb b--black-20">
+                  {{ garage && garage.name }}
+                </td>
+                <td class="pa3 pr3 bb b--black-20">
+                  {{ garage && garage.address }}
+                </td>
+                <td class="pa3 pr3 bb b--black-20">
+                  {{ garage && garage.occupiedCapacity }} /
+                  {{ garage && garage.totalCapacity }}
+                </td>
+                <td class="pa3 pr3 bb b--black-20">
+                  <mat-icon
+                    class="ph2"
+                    aria-hidden="false"
+                    aria-label="Parking"
+                    matTooltip="Parking"
+                    >local_parking</mat-icon
+                  >
+                  <mat-icon
+                    class="ph2"
+                    matTooltip="Cleaning"
+                    *ngIf="garage && garage.hasCleaningService"
+                    aria-hidden="false"
+                    aria-label="Cleaning"
+                    >local_car_wash</mat-icon
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="measure center mt4 pt4">
+        <div class="overflow-auto">
+          <table
+            *ngIf="selectedGarage"
+            class="f6 w-100 center ba"
+            cellspacing="0"
+          >
+            <caption>
+              Select Space
+            </caption>
+            <thead>
+              <tr>
+                <th class="fw6 bb b--black tl pa3 pr3 bg-white">Space</th>
+                <th class="fw6 bb b--black tl pa3 pr3 bg-white">
+                  Occupied / Total
+                </th>
+              </tr>
+            </thead>
+            <tbody class="b lh-copy" *ngFor="let space of spaces">
+              <tr
+                class="pointer"
+                (click)="
+                  selectSpace(
+                    space.id,
+                    space.occupiedCapacity,
+                    space.totalCapacity
+                  )
+                "
+                [ngClass]="{
+                  'bg-lightest-blue':
+                    space && space.id == selectedSpaceId && selectedSpace
+                }"
+                [ngClass]="{
+                  'bg-washed-red':
+                    space && space.totalCapacity == space.occupiedCapacity
+                }"
+              >
+                <td class="pa3 pr3 bb b--black-20">
+                  {{ space && space.code }}
+                </td>
+                <td class="pa3 pr3 bb b--black-20">
+                  {{ space && space.occupiedCapacity }} /
+                  {{ space && space.totalCapacity }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <form
+        class="measure center mt4 pt4"
+        [formGroup]="bookParkingForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
+          <div class="mt2">
+            <mat-form-field class="w-100" appearance="legacy">
+              <mat-label>Vehicle Number</mat-label>
+              <input
+                formControlName="vehicleNumber"
+                matInput
+                placeholder="John Doe"
+              />
+              <mat-error *ngIf="f.vehicleNumber.hasError('required')">
+                Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="mt2">
+            <mat-form-field class="w-100" appearance="legacy">
+              <mat-label>Driver Name</mat-label>
+              <input
+                formControlName="driverName"
+                matInput
+                placeholder="Address"
+              />
+              <mat-error *ngIf="f.driverName.hasError('required')">
+                Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="mv4">
+            <mat-checkbox
+              [disabled]="!hasCleaningService"
+              matTooltip="Depends on Selected Garage"
+              labelPosition="after"
+              color="primary"
+              formControlName="withCleaningService"
+              name="withCleaningService"
+              [(ngModel)]="withCleaningServiceFlag"
+              >With Cleaning Service</mat-checkbox
+            >
+          </div>
+        </fieldset>
+        <div class="mv2">
+          <button
+            class="w-100"
+            mat-stroked-button
+            color="primary"
+            [disabled]="!bookParkingForm.valid"
+          >
+            Book
+          </button>
+        </div>
+      </form>
+    </main>
+  
+    <footer class="pv4 ph3 ph5-m ph6-l mid-gray">
+      <small class="f6 db tc"
+        >© 2021 <b class="ttu">MechPark</b> All Rights Reserved</small
+      >
+      <div class="tc">
+        <a href="/language/" title="Language" class="f6 dib ph2 link mid-gray dim"
+          >Language</a
+        >
+        <a href="/terms/" title="Terms" class="f6 dib ph2 link mid-gray dim"
+          >Terms of Use</a
+        >
+        <a href="/privacy/" title="Privacy" class="f6 dib ph2 link mid-gray dim"
+          >Privacy</a
+        >
+      </div>
+    </footer>
+  </div>
+  

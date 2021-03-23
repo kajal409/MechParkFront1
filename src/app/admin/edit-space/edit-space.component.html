@@ -1,0 +1,63 @@
+<div class="flex flex-column justify-between">
+  <main class="pa4 black-80 spacer">
+    <form
+      class="measure center mt4 pt4"
+      [formGroup]="editSpaceForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
+        <legend class="f4 fw4 ph0 mh0">Edit Space</legend>
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Code</mat-label>
+            <input formControlName="code" matInput placeholder="A100" />
+            <mat-error class="light-red b" *ngIf="f.code.hasError('required')">
+              Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Total Capacity</mat-label>
+            <input formControlName="totalCapacity" matInput placeholder="25" />
+            <mat-error class="light-red b" *ngIf="f.totalCapacity.hasError('required')">
+              Required
+            </mat-error>
+            <mat-error class="light-red b" *ngIf="f.totalCapacity.hasError('pattern')">
+              Enter a Number
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </fieldset>
+      <div class="mv2">
+        <button
+          class="w-50"
+          mat-stroked-button
+          color="primary"
+          [disabled]="!editSpaceForm.valid"
+        >
+          Edit
+        </button>
+        <button class="w-50" mat-stroked-button color="primary" routerLink="./spaces">Cancel</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="pv4 ph3 ph5-m ph6-l mid-gray">
+    <small class="f6 db tc"
+      >© 2021 <b class="ttu">MechPark</b> All Rights Reserved</small
+    >
+    <div class="tc">
+      <a href="/language/" title="Language" class="f6 dib ph2 link mid-gray dim"
+        >Language</a
+      >
+      <a href="/terms/" title="Terms" class="f6 dib ph2 link mid-gray dim"
+        >Terms of Use</a
+      >
+      <a href="/privacy/" title="Privacy" class="f6 dib ph2 link mid-gray dim"
+        >Privacy</a
+      >
+    </div>
+  </footer>
+</div>

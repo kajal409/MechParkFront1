@@ -1,0 +1,145 @@
+<div class="pa4">
+  <div class="overflow-auto">
+    <button routerLink="create-garage/" mat-icon-button aria-label="Add Garage">
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-form-field class="w-100">
+      <mat-label>Filter Garages</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input />
+    </mat-form-field>
+
+    <table
+      matSort
+      mat-table
+      [dataSource]="garageSource"
+      multiTemplateDataRows
+      class="w-100 overflow-hidden pointer"
+    >
+      <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let garage">{{ garage.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="hasCleaning">
+        <th mat-header-cell *matHeaderCellDef>Cleaning Service</th>
+        <td mat-cell *matCellDef="let garage">
+          <mat-checkbox
+            color="primary"
+            [(ngModel)]="garage && garage.hasCleaningService"
+            [disabled]="true"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cleaningRate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cleaning Rate</th>
+        <td mat-cell *matCellDef="let garage">{{ (garage.hasCleaningService == true) ? garage.cleaningRate : 'N/A'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="parkingRate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Parking Rate</th>
+        <td mat-cell *matCellDef="let garage">{{ garage.parkingRate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalCapacity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Capacity</th>
+        <td mat-cell *matCellDef="let garage">{{ garage.totalCapacity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="occupiedCapacity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Occupied Capacity</th>
+        <td mat-cell *matCellDef="let garage">{{ garage.occupiedCapacity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let garage">
+          <button
+            routerLink="create-garage"
+            mat-icon-button
+            aria-label="Add Garage"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <button
+            routerLink="edit-garage/{{ garage.id }}"
+            mat-icon-button
+            aria-label="Edit Garage"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            (click)="delete(garage.id)"
+            mat-icon-button
+            aria-label="Delete Garage"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let garage"
+          [attr.colspan]="garageColumnsToDisplay.length"
+        >
+          <div
+            class="table-element-detail"
+            [@detailExpand]="
+              garage == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+          <div class="overflow-auto">
+            <table class="f6 w-100 mw8 center" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="fw4 tl pv3 pr3 bg-white">
+                    Address
+                  </th>
+                  <th class="fw4 tl pv3 pr3 bg-white">City</th>
+                  <th class="fw4 tl pv3 pr3 bg-white">
+                    State
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="lh-copy">
+                <tr>
+                  <td class="pv3 pr3">{{ garage.address }}</td>
+                  <td class="pv3 pr3">{{ garage.city }}</td>
+                  <td class="pv3 pr3">{{ garage.state }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="garageColumnsToDisplay"></tr>
+      <tr
+        class="pointer"
+        mat-row
+        *matRowDef="let element; columns: garageColumnsToDisplay"
+        class="table-element-row"
+        [class.table-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="table-detail-row pointer"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 32, 49]"
+      [length]="100"
+      [pageSize]="10"
+      showFirstLastButtons
+    ></mat-paginator>
+
+  </div>
+</div>

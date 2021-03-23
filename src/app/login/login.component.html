@@ -1,0 +1,54 @@
+<div class="flex flex-column justify-between">
+    <main class="pa4 spacer">
+        <form class="measure center mt4 pt4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <fieldset id="sign_up" class="ba b--transparent ph0 mh0">
+                <legend class="f3 fw5 ph0 mh0 tc georgia">Login</legend>
+                <div class="mt2">
+                    <mat-form-field class="w-100" appearance="legacy">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" matInput type="email" placeholder="Email" />
+                        <mat-error class="light-red b" *ngIf="f.email.hasError('required')">
+                            Required
+                        </mat-error>
+                        <mat-error class="light-red b" *ngIf="f.email.hasError('email')">
+                            Invalid Email
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="mt2">
+                    <mat-form-field class="w-100" appearance="legacy">
+                        <mat-label>Password</mat-label>
+                        <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Password" />
+                        <mat-icon class="pointer" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <mat-error class="light-red b" *ngIf="f.password.hasError('required')">
+                            Required
+                        </mat-error>
+                        <mat-error class="light-red b" *ngIf="f.password.hasError('minlength')">
+                            Password must be atleast 6 Characters
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </fieldset>
+            <div class="mv2">
+                <button class="w-100" mat-stroked-button color="primary">Login</button>
+            </div>
+            <div class="mt3 lh-copy  cf">
+                <div class="fl w-50 tc">
+                    <button routerLink="/signup" mat-button color="secondary">Sign Up</button>
+                </div>
+                <div class="fl w-50 tc">
+                    <button routerLink="/forgot-password" mat-button color="secondary">Forgot Password?</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <footer class="pv4 ph3 ph5-m ph6-l mid-gray">
+        <small class="f6 db tc">© 2021 <b class="ttu">MechPark</b> All Rights Reserved</small>
+        <div class="tc mt3">
+            <a href="/language/" title="Language" class="f6 dib ph2 link mid-gray dim">Language</a>
+            <a href="/terms/" title="Terms" class="f6 dib ph2 link mid-gray dim">Terms of Use</a>
+            <a href="/privacy/" title="Privacy" class="f6 dib ph2 link mid-gray dim">Privacy</a>
+        </div>
+    </footer>
+</div>

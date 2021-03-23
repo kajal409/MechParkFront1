@@ -1,0 +1,74 @@
+<div *ngIf="!parking" class="mh5">
+  <article class="vh-80 dt w-100">
+    <div class="dtc v-mid tc ph3 ph4-l">
+      <h1 class="f6 f2-m f-subheadline-l fw6 tc">
+        <button mat-stroked-button routerLink="book-parking">
+          Book Parking
+        </button>
+      </h1>
+    </div>
+  </article>
+</div>
+
+<div *ngIf="parking" class="pa3">
+  <mat-expansion-panel
+    expanded
+    class="pa2 ba br2 b--light-purple mat-elevation-z0"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>Hi, {{ userInfo.name }}</mat-panel-title>
+      <mat-panel-description>
+        {{ parking && parking.isBooked ? 'Booked' : 'Not Yet Booked' }}
+        and
+        {{ parking && parking.isActive ? 'Checked In' : 'Not Yet Checked In' }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <article class="pa3 cf">
+      <div class="ph3 fl w-50 f5 tr">Driver Name</div>
+      <div class="ph3 fl w-50 f5 tl">
+        {{ parking && parking.driverName }}
+      </div>
+    </article>
+    <article class="pa3 cf">
+      <div class="ph3 fl w-50 f5 tr">Vehicle Number</div>
+      <div class="ph3 fl w-50 f5 tl">
+        {{ parking && parking.vehicleNumber }}
+      </div>
+    </article>
+    <article class="pa3 cf">
+      <div class="ph3 fl w-50 f5 tr">With CleaningService</div>
+      <div class="ph3 fl w-50 f5 tl">
+        <mat-checkbox
+          color="primary"
+          [(ngModel)]="parking && parking.withCleaningService"
+          [disabled]="true"
+        >
+        </mat-checkbox>
+      </div>
+    </article>
+    <article class="pa3 cf" *ngIf="parking && parking.withCleaningService">
+      <div class="ph3 fl w-50 f5 tr">Cleaning Rate</div>
+      <div class="ph3 fl w-50 f5 tl mono b">
+        {{ parking && parking.userCheckIn | date: 'dd/MM/YY  hh:mm a' }}
+      </div>
+    </article>
+    <article class="pa3 cf" *ngIf="parking && parking.withCleaningService">
+      <div class="ph3 fl w-50 f5 tr">Cleaning Rate</div>
+      <div class="ph3 fl w-50 f5 tl mono b">
+        {{ garage && garage.cleaningRate }}
+      </div>
+    </article>
+    <article class="pa3 cf">
+      <div class="ph3 fl w-50 f5 tr">Parking Rate</div>
+      <div class="ph3 fl w-50 f5 tl mono b">
+        ₹ {{ garage && garage.parkingRate }} / hour
+      </div>
+    </article>
+    <article class="pa3 cf" *ngIf="parking && parking.isActive">
+      <div class="ph3 fl w-50 f5 tr">Checked In at</div>
+      <div class="ph3 fl w-50 f5 tl mono b">
+        {{ parking && parking.userCheckIn | date: 'dd/MM/YY  hh:mm a' }}
+      </div>
+    </article>
+  </mat-expansion-panel>
+</div>

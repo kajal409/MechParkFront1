@@ -107,8 +107,8 @@ export class SpacesComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  /*ngAfterViewInit(): void {
     this.spaceSource.paginator = this.paginator;
     this.spaceSource.sort = this.sort;
-  }
+  }*/
 }

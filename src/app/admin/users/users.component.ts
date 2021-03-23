@@ -75,6 +75,7 @@ export class UsersComponent implements OnInit {
             this.userSource = new MatTableDataSource<User>(this.filteredUsers);
 
             this.userSource.sort = this.sort;
+            this.userSource.paginator = this.paginator;
           });
           this._snackBar.open('✓ Deleted', '', {
             duration: 1500,
@@ -104,8 +105,8 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  /*ngAfterViewInit(): void {
     this.userSource.paginator = this.paginator;
     this.userSource.sort = this.sort;
-  }
+  }*/
 }

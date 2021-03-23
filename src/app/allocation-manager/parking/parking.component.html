@@ -1,11 +1,16 @@
 <div>
   <article class="vh-80 dt w-100">
     <div class="f4 fw6 pt2 tc" *ngIf="parkings && parkings.length > 0">
-      Parking Details
+      <!-- Parking Details -->
       <!-- <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{user.token}}" /> -->
     </div>
     <div *ngIf="parkings && parkings.length == 0">No Active Parkings</div>
     <div *ngIf="parkings && parkings.length >= 1">
+
+      <mat-form-field class="w-100 pv2">
+        <mat-label>Filter Parking</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="" #input />
+      </mat-form-field>
       <table
         matSort
         mat-table
@@ -23,7 +28,7 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="driverName">
+        <ng-container matColumnDef="driverName" >
           <th mat-header-cell *matHeaderCellDef>Driver Name</th>
           <td mat-cell *matCellDef="let parking">
             {{ parking && parking.driverName }}
@@ -126,6 +131,12 @@
           class="table-detail-row pointer"
         ></tr>
       </table>
+      <mat-paginator
+      [pageSizeOptions]="[10, 25, 32, 49]"
+      [length]="100"
+      [pageSize]="10"
+      showFirstLastButtons
+    ></mat-paginator>
     </div>
   </article>
 </div>

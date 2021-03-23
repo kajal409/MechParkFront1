@@ -19,11 +19,38 @@ export class EditUserComponent implements OnInit {
   editUserForm: FormGroup;
   submitted = false;
 
-  cityOptions: string[] = [
-    'Ahmedabad',
-    'Rajkot'
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
   ];
-  filteredCityOptions: Observable<string[]>;
+
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,8 +85,8 @@ export class EditUserComponent implements OnInit {
       .pipe(first())
       .subscribe((x) => this.editUserForm.patchValue(x));
 
-    this.filteredCityOptions = this.editUserForm.controls[
-      'city'
+    this.filteredStateOptions = this.editUserForm.controls[
+      'state'
     ].valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value))
@@ -69,7 +96,7 @@ export class EditUserComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.cityOptions.filter((option) =>
+    return this.stateOptions.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }

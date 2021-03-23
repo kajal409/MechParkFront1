@@ -21,6 +21,7 @@ import {
 } from '@angular/animations';
 import { ParkingHistory } from 'src/app/_models/parkingHistory';
 import { AllocationManager } from 'src/app/_models/allocationManager';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-space',
@@ -53,6 +54,9 @@ export class SpaceComponent implements OnInit {
     'actions'
   ];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private userService: UserService,
     private garageService: GarageService,
@@ -60,6 +64,15 @@ export class SpaceComponent implements OnInit {
     private parkingService: ParkingService,
     private router: Router
   ) {}
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.spaceSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.spaceSource.paginator) {
+      this.spaceSource.paginator.firstPage();
+    }
+  }
 
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
@@ -71,6 +84,9 @@ export class SpaceComponent implements OnInit {
           .pipe()
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
+            this.spaceSource = new MatTableDataSource<Space>(this.spaces);
+            this.spaceSource.paginator = this.paginator;
+            this.spaceSource.sort = this.sort;
           });
       }
     });
@@ -84,6 +100,8 @@ export class SpaceComponent implements OnInit {
           .subscribe((spaces) => {
             this.spaces = spaces;
             this.spaceSource = new MatTableDataSource<Space>(spaces);
+            this.spaceSource.paginator = this.paginator;
+            this.spaceSource.sort = this.sort;
           });
       });
   }

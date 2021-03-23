@@ -30,11 +30,38 @@ export class CreateGarageComponent implements OnInit {
   parkingManagers: ParkingManager[];
   selected = 0;
 
-  cityOptions: string[] = [
-    'Ahemdabad',
-    'Rajkot'
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
   ];
-  filteredCityOptions: Observable<string[]>;
+
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +77,7 @@ export class CreateGarageComponent implements OnInit {
       name: this.formBuilder.control('', [Validators.required]),
       address: this.formBuilder.control('', [Validators.required]),
       city: this.formBuilder.control('', [Validators.required]),
-      state: this.formBuilder.control('Gujarat', [Validators.required]),
+      state: this.formBuilder.control('', [Validators.required]),
       phone: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(/^[0-9]*$/),
@@ -75,8 +102,8 @@ export class CreateGarageComponent implements OnInit {
       });
     });
 
-    this.filteredCityOptions = this.createGarageForm.controls[
-      'city'
+    this.filteredStateOptions = this.createGarageForm.controls[
+      'state'
     ].valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value))
@@ -86,7 +113,7 @@ export class CreateGarageComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.cityOptions.filter((option) =>
+    return this.stateOptions.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }

@@ -12,6 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GarageService } from '../_services/garage.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-garage',
@@ -22,6 +24,39 @@ export class CreateGarageComponent implements OnInit {
   createGarageForm: FormGroup;
   submitted = false;
   hasCleaningServiceFlag: boolean;
+
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,6 +88,21 @@ export class CreateGarageComponent implements OnInit {
     this.createGarageForm.controls['hasCleaningService'].setValue(false);
     this.createGarageForm.addControl('cleaningRate', new FormControl());
     this.createGarageForm.controls['cleaningRate'].setValue('0');
+
+    this.filteredStateOptions = this.createGarageForm.controls[
+      'state'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.stateOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   get f() {

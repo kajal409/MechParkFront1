@@ -161,7 +161,7 @@
                 matInput
                 placeholder="John Doe"
               />
-              <mat-error *ngIf="f.vehicleNumber.hasError('required')">
+              <mat-error class="light-red b" *ngIf="f.vehicleNumber.hasError('required')">
                 Required
               </mat-error>
             </mat-form-field>
@@ -175,7 +175,7 @@
                 matInput
                 placeholder="Address"
               />
-              <mat-error *ngIf="f.driverName.hasError('required')">
+              <mat-error class="light-red b" *ngIf="f.driverName.hasError('required')">
                 Required
               </mat-error>
             </mat-form-field>

@@ -12,9 +12,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public userService: UserService,
-    private _snackBar: MatSnackBar,) {
-    
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   forgotPasswordForm: FormGroup;
   submitted = false;
@@ -40,9 +39,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     this.userService
-      .forgotPassword(
-        this.forgotPasswordForm.controls.email.value
-      )
+      .forgotPassword(this.forgotPasswordForm.controls.email.value)
       .pipe()
       .subscribe(
         (user) => {
@@ -52,7 +49,6 @@ export class ForgotPasswordComponent implements OnInit {
             verticalPosition: 'bottom',
             panelClass: 'snackbar-light-purple'
           });
-         
         },
         (error) => {
           console.log(error);
@@ -70,8 +66,6 @@ export class ForgotPasswordComponent implements OnInit {
         }
       );
   }
-  
-  
 
   onReset() {
     this.submitted = false;

@@ -19,6 +19,7 @@ import {
   transition,
   animate
 } from '@angular/animations';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-parking',
@@ -54,6 +55,7 @@ export class ParkingComponent implements OnInit {
     'spaceCode'
   ];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -66,6 +68,15 @@ export class ParkingComponent implements OnInit {
     this.parkingSource = new MatTableDataSource();
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.parkingSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.parkingSource.paginator) {
+      this.parkingSource.paginator.firstPage();
+    }
+  }
+
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
       this.user = user;
@@ -76,6 +87,9 @@ export class ParkingComponent implements OnInit {
           .pipe()
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
+            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
+            this.parkingSource.paginator = this.paginator;
+            this.parkingSource.sort = this.sort;
           });
       }
     });
@@ -88,6 +102,9 @@ export class ParkingComponent implements OnInit {
           .getById(this.parkingManager && this.parkingManager.garageId)
           .subscribe((garage) => {
             this.garage = garage;
+            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
+            this.parkingSource.paginator = this.paginator;
+            this.parkingSource.sort = this.sort;
           });
 
         this.parkingService
@@ -100,9 +117,15 @@ export class ParkingComponent implements OnInit {
                 .getById(this.parkings[i].spaceId)
                 .subscribe((space) => {
                   this.spaces.push(space);
+                  this.parkingSource.paginator = this.paginator;
+                  this.parkingSource.sort = this.sort;
                 });
             }
           });
       });
   }
+  /*ngAfterViewInit(): void {
+    this.parkingSource.paginator = this.paginator;
+    this.parkingSource.sort = this.sort;
+  }*/
 }

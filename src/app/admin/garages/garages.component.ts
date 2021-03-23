@@ -72,7 +72,7 @@ export class GaragesComponent implements OnInit {
             this.garages = garages;
             this.garageSource = new MatTableDataSource<Garage>(this.garages);
 
-            // this.userSource.paginator = this.paginator;
+            this.garageSource.paginator = this.paginator;
             this.garageSource.sort = this.sort;
           });
           this._snackBar.open('✓ Deleted', '', {
@@ -101,8 +101,8 @@ export class GaragesComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  /*ngAfterViewInit(): void {
     this.garageSource.paginator = this.paginator;
     this.garageSource.sort = this.sort;
-  }
+  }*/
 }

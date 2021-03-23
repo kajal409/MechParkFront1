@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MustMatch } from '../_helpers/must-match.validator';
@@ -10,6 +10,7 @@ import { MustMatch } from '../_helpers/must-match.validator';
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 import { User } from '../_models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-user',
@@ -20,6 +21,39 @@ export class EditUserComponent implements OnInit {
   user: User;
   editUserForm: FormGroup;
   submitted = false;
+
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,6 +88,21 @@ export class EditUserComponent implements OnInit {
       .getById(this.user.id)
       .pipe(first())
       .subscribe((x) => this.editUserForm.patchValue(x));
+
+    this.filteredStateOptions = this.editUserForm.controls[
+      'state'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.stateOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   hide = true;

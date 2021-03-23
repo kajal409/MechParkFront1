@@ -72,14 +72,9 @@ export class ParkingsComponent implements OnInit {
           .getById(this.parkings[i].spaceId)
           .subscribe((space) => {
             this.spaces.push(space);
-            this.parkingSource.sort = this.sort;
+            this.parkingSource.paginator = this.paginator;
           });
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.parkingSource.paginator = this.paginator;
-    this.parkingSource.sort = this.sort;
   }
 }

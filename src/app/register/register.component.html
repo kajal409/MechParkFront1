@@ -59,24 +59,25 @@
                 <div class="mt2">
                     <mat-form-field class="w-100" appearance="legacy">
                         <mat-label>City</mat-label>
-                        <input formControlName="city" matInput placeholder="City" [matAutocomplete]="auto"/>
+                        <input formControlName="city" matInput placeholder="City" />
                         <mat-error class="light-red b" *ngIf="f.city.hasError('required')">
                             Required
                         </mat-error>
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option  *ngFor="let option of filteredCityOptions | async" [value]="option">
-                              {{option}}
-                            </mat-option>
-                          </mat-autocomplete>
+                        
                     </mat-form-field>
                 </div>
                 <div class="mt2">
                     <mat-form-field class="w-100" appearance="legacy">
                         <mat-label>State</mat-label>
-                        <input formControlName="state" matInput value="Gujarat" placeholder="State" readonly/>
+                        <input formControlName="state" matInput placeholder="State" [matAutocomplete]="auto"/>
                         <mat-error class="light-red b" *ngIf="f.state.hasError('required')">
                             Required
                         </mat-error>
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option  *ngFor="let option of filteredStateOptions | async" [value]="option">
+                              {{option}}
+                            </mat-option>
+                          </mat-autocomplete>
                     </mat-form-field>
                 </div>
                 <div class="mt2">

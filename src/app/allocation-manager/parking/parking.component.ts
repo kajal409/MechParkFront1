@@ -21,6 +21,7 @@ import {
 } from '@angular/animations';
 import { AllocationManager } from 'src/app/_models/allocationManager';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-parking',
@@ -51,6 +52,9 @@ export class ParkingComponent implements OnInit {
   expandedElement: Parking | null;
   parkingColumnsToDisplay = ['vehicleNumber', 'driverName', 'actions'];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private userService: UserService,
     private garageService: GarageService,
@@ -60,6 +64,15 @@ export class ParkingComponent implements OnInit {
     private router: Router
   ) {
     this.parkingSource = new MatTableDataSource();
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.parkingSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.parkingSource.paginator) {
+      this.parkingSource.paginator.firstPage();
+    }
   }
 
   checkIn(id: number): void {
@@ -78,9 +91,9 @@ export class ParkingComponent implements OnInit {
             .getByAllocationManager(this.allocationManager.id)
             .subscribe((parkings) => {
               this.parkings = parkings;
-              this.parkingSource = new MatTableDataSource<Parking>(
-                this.parkings
-              );
+              this.parkingSource = new MatTableDataSource<Parking>(parkings);
+              this.parkingSource.paginator = this.paginator;
+              this.parkingSource.sort = this.sort;
               console.log(
                 '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
                 parkings
@@ -108,9 +121,9 @@ export class ParkingComponent implements OnInit {
             .getByAllocationManager(this.allocationManager.id)
             .subscribe((parkings) => {
               this.parkings = parkings;
-              this.parkingSource = new MatTableDataSource<Parking>(
-                this.parkings
-              );
+              this.parkingSource = new MatTableDataSource<Parking>(parkings);
+              this.parkingSource.paginator = this.paginator;
+              this.parkingSource.sort = this.sort;
               console.log(
                 '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
                 parkings
@@ -133,6 +146,9 @@ export class ParkingComponent implements OnInit {
           .pipe()
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
+            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
+            this.parkingSource.paginator = this.paginator;
+            this.parkingSource.sort = this.sort;
           });
       }
     });
@@ -146,13 +162,18 @@ export class ParkingComponent implements OnInit {
           .getByAllocationManager(this.allocationManager.id)
           .subscribe((spaces) => {
             this.spaces = spaces;
+            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
+            this.parkingSource.paginator = this.paginator;
+            this.parkingSource.sort = this.sort;
           });
 
         this.parkingService
           .getByAllocationManager(this.allocationManager.id)
           .subscribe((parkings) => {
             this.parkings = parkings;
-            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
+            this.parkingSource = new MatTableDataSource<Parking>(parkings);
+            this.parkingSource.paginator = this.paginator;
+            this.parkingSource.sort = this.sort;
             console.log(
               '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
               parkings

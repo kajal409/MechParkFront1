@@ -19,7 +19,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
-  stateName = 'Gujarat';
   isUnchanged = true;
   createUserForm: FormGroup;
   submitted = false;
@@ -28,8 +27,38 @@ export class CreateUserComponent implements OnInit {
     { value: 'ParkingManager', viewValue: 'Parking Manager' },
     { value: 'User', viewValue: 'Customer' }
   ];
-  cityOptions: string[] = ['Ahemdabad', 'Rajkot'];
-  filteredCityOptions: Observable<string[]>;
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+
+  filteredStateOptions: Observable<string[]>;
   constructor(
     private formBuilder: FormBuilder,
     public userService: UserService,
@@ -44,7 +73,7 @@ export class CreateUserComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         address: ['', Validators.required],
         city: ['', Validators.required],
-        state: ['Gujarat', Validators.required],
+        state: ['', Validators.required],
         phone: [
           '',
           [
@@ -62,8 +91,8 @@ export class CreateUserComponent implements OnInit {
       }
     );
 
-    this.filteredCityOptions = this.createUserForm.controls[
-      'city'
+    this.filteredStateOptions = this.createUserForm.controls[
+      'state'
     ].valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value))
@@ -73,7 +102,7 @@ export class CreateUserComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.cityOptions.filter((option) =>
+    return this.stateOptions.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }

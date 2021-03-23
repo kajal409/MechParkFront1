@@ -87,6 +87,11 @@ export class ParkinghistoryComponent implements OnInit {
           .pipe()
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
+            this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
+              this.parkingHistories
+            );
+            this.parkingHistorySource.paginator = this.paginator;
+            this.parkingHistorySource.sort = this.sort;
           });
       }
     });
@@ -104,6 +109,7 @@ export class ParkinghistoryComponent implements OnInit {
               parkingHistories
             );
 
+            this.parkingHistorySource.paginator = this.paginator;
             this.parkingHistorySource.sort = this.sort;
 
             for (let i = 0; i < parkingHistories.length; i++) {
@@ -111,7 +117,9 @@ export class ParkinghistoryComponent implements OnInit {
                 .getById(this.parkingHistories[i].spaceId)
                 .subscribe((space) => {
                   this.spaces.push(space);
-
+                  this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
+                    parkingHistories
+                  );
                   this.parkingHistorySource.paginator = this.paginator;
                   this.parkingHistorySource.sort = this.sort;
                 });
@@ -120,8 +128,8 @@ export class ParkinghistoryComponent implements OnInit {
       });
   }
 
-  ngAfterViewInit(): void {
+  /*ngAfterViewInit(): void {
     this.parkingHistorySource.paginator = this.paginator;
     this.parkingHistorySource.sort = this.sort;
-  }
+  }*/
 }

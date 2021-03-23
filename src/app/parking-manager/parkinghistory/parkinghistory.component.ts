@@ -19,6 +19,7 @@ import {
   animate
 } from '@angular/animations';
 import { ParkingHistory } from 'src/app/_models/parkingHistory';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-parkinghistory',
@@ -50,10 +51,12 @@ export class ParkinghistoryComponent implements OnInit {
   parkingHistoryColumnsToDisplay = [
     'vehicleNumber',
     'driverName',
-    'isActive',
-    'spaceCode'
+    'spaceCode',
+    'cost',
+    'interval'
   ];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -66,6 +69,15 @@ export class ParkinghistoryComponent implements OnInit {
     this.parkingHistorySource = new MatTableDataSource();
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.parkingHistorySource.filter = filterValue.trim().toLowerCase();
+
+    if (this.parkingHistorySource.paginator) {
+      this.parkingHistorySource.paginator.firstPage();
+    }
+  }
+
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
       this.user = user;
@@ -76,6 +88,11 @@ export class ParkinghistoryComponent implements OnInit {
           .pipe()
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
+            this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
+              this.parkingHistories
+            );
+            this.parkingHistorySource.paginator = this.paginator;
+            this.parkingHistorySource.sort = this.sort;
           });
       }
     });
@@ -88,6 +105,11 @@ export class ParkinghistoryComponent implements OnInit {
           .getById(this.parkingManager.garageId)
           .subscribe((garage) => {
             this.garage = garage;
+            this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
+              this.parkingHistories
+            );
+            this.parkingHistorySource.paginator = this.paginator;
+            this.parkingHistorySource.sort = this.sort;
           });
 
         this.parkingService
@@ -102,6 +124,11 @@ export class ParkinghistoryComponent implements OnInit {
                 .getById(this.parkingHistories[i].spaceId)
                 .subscribe((space) => {
                   this.spaces.push(space);
+                  this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
+                    this.parkingHistories
+                  );
+                  this.parkingHistorySource.paginator = this.paginator;
+                  this.parkingHistorySource.sort = this.sort;
                 });
             }
           });

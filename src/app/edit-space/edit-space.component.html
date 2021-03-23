@@ -38,8 +38,8 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Code</mat-label>
-            <input formControlName="code" matInput placeholder="A100" />
-            <mat-error *ngIf="f.code.hasError('required')">
+            <input formControlName="code" matInput placeholder="Code" />
+            <mat-error class="light-red b" *ngIf="f.code.hasError('required')">
               Required
             </mat-error>
           </mat-form-field>
@@ -48,11 +48,11 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Total Capacity</mat-label>
-            <input formControlName="totalCapacity" matInput placeholder="25" />
-            <mat-error *ngIf="f.totalCapacity.hasError('required')">
+            <input formControlName="totalCapacity" matInput placeholder="Total Capacity" />
+            <mat-error class="light-red b" *ngIf="f.totalCapacity.hasError('required')">
               Required
             </mat-error>
-            <mat-error *ngIf="f.totalCapacity.hasError('pattern')">
+            <mat-error class="light-red b" *ngIf="f.totalCapacity.hasError('pattern')">
               Enter a Number
             </mat-error>
           </mat-form-field>

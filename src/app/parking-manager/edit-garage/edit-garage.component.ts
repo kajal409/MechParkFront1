@@ -7,7 +7,7 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GarageService } from 'src/app/_services/garage.service';
@@ -16,6 +16,7 @@ import { UserService } from 'src/app/_services/user.service';
 import { Garage } from 'src/app/_models/garage';
 import { ParkingManager } from 'src/app/_models/parkingManager';
 import { User } from 'src/app/_models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-garage',
@@ -30,6 +31,9 @@ export class EditGarageComponent implements OnInit {
   editGarageForm: FormGroup;
   submitted = false;
   hasCleaningServiceFlag: boolean;
+
+  cityOptions: string[] = ['Ahemdabad', 'Rajkot'];
+  filteredCityOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -97,6 +101,21 @@ export class EditGarageComponent implements OnInit {
     //   .getById(this.user.id)
     //   .pipe(first())
     //   .subscribe((x) => this.editUserForm.patchValue(x));
+
+    this.filteredCityOptions = this.editGarageForm.controls[
+      'city'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.cityOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   get f() {

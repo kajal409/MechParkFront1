@@ -10,10 +10,16 @@
   </article>
 </div>
 
+<mat-form-field class="w-100 pv2">
+  <mat-label>Filter Space</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="" #input />
+</mat-form-field>
+
 <div *ngIf="allocationManager && allocationManager.space >= 1">
   <article class="vh-80 dt w-100">
     <div class="dtc v-mid ph3 ph4-l">
       <div class="f4 pt2">
+
         <table
           matSort
           mat-table
@@ -106,6 +112,12 @@
             class="table-detail-row pointer"
           ></tr>
         </table>
+        <mat-paginator
+      [pageSizeOptions]="[10, 25, 32, 49]"
+      [length]="100"
+      [pageSize]="10"
+      showFirstLastButtons
+    ></mat-paginator>
       </div>
     </div>
   </article>

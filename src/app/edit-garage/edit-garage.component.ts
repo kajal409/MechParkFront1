@@ -7,7 +7,7 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GarageService } from '../_services/garage.service';
@@ -16,6 +16,7 @@ import { UserService } from '../_services/user.service';
 import { Garage } from '../_models/garage';
 import { ParkingManager } from '../_models/parkingManager';
 import { User } from '../_models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-garage',
@@ -30,6 +31,39 @@ export class EditGarageComponent implements OnInit {
   editGarageForm: FormGroup;
   submitted = false;
   hasCleaningServiceFlag: boolean;
+
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -97,6 +131,21 @@ export class EditGarageComponent implements OnInit {
     //   .getById(this.user.id)
     //   .pipe(first())
     //   .subscribe((x) => this.editUserForm.patchValue(x));
+
+    this.filteredStateOptions = this.editGarageForm.controls[
+      'state'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.stateOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   get f() {

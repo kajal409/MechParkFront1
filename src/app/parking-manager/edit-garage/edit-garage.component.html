@@ -10,8 +10,8 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Name</mat-label>
-            <input formControlName="name" matInput placeholder="John Doe" />
-            <mat-error *ngIf="f.name.hasError('required')">
+            <input formControlName="name" matInput placeholder="Name" />
+            <mat-error class="light-red b" *ngIf="f.name.hasError('required')">
               Required
             </mat-error>
           </mat-form-field>
@@ -25,7 +25,7 @@
               matInput
               placeholder="Address"
             ></textarea>
-            <mat-error *ngIf="f.address.hasError('required')">
+            <mat-error class="light-red b" *ngIf="f.address.hasError('required')">
               Required
             </mat-error>
           </mat-form-field>
@@ -33,19 +33,25 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>City</mat-label>
-            <input formControlName="city" matInput placeholder="John Doe" />
-            <mat-error *ngIf="f.city.hasError('required')">
+            <input formControlName="city" matInput placeholder="City" />
+            <mat-error class="light-red b" *ngIf="f.city.hasError('required')">
               Required
             </mat-error>
+            
           </mat-form-field>
         </div>
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>State</mat-label>
-            <input formControlName="state" matInput placeholder="John Doe" />
-            <mat-error *ngIf="f.state.hasError('required')">
+            <input formControlName="state" matInput placeholder="State" [matAutocomplete]="auto"/>
+            <mat-error class="light-red b" *ngIf="f.state.hasError('required')">
               Required
             </mat-error>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option  *ngFor="let option of filteredCityOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <div class="mt2">
@@ -57,7 +63,7 @@
               matInput
               placeholder="Phone"
             />
-            <mat-error *ngIf="f.phone.hasError('required')">
+            <mat-error class="light-red b" *ngIf="f.phone.hasError('required')">
               Required
             </mat-error>
             <mat-error
@@ -75,12 +81,12 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Parking Rate</mat-label>
-            <input formControlName="parkingRate" matInput placeholder="100" />
+            <input formControlName="parkingRate" matInput placeholder="Parking Rate" />
             <span matPrefix class="ph2">₹</span>
-            <mat-error *ngIf="f.parkingRate.hasError('required')">
+            <mat-error class="light-red b" *ngIf="f.parkingRate.hasError('required')">
               Required
             </mat-error>
-            <mat-error *ngIf="f.parkingRate.hasError('pattern')">
+            <mat-error class="light-red b" *ngIf="f.parkingRate.hasError('pattern')">
               Enter a Number
             </mat-error>
           </mat-form-field>
@@ -100,14 +106,14 @@
         <div class="mt2" *ngIf="hasCleaningServiceFlag">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Cleaning Rate</mat-label>
-            <input formControlName="cleaningRate" matInput placeholder="100" />
+            <input formControlName="cleaningRate" matInput placeholder="Cleaning Rate" />
             <span matPrefix class="ph2">₹</span>
-            <mat-error
+            <mat-error class="light-red b"
               *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')"
             >
               Required
             </mat-error>
-            <mat-error
+            <mat-error class="light-red b"
               *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')"
             >
               Enter a Number
@@ -116,11 +122,11 @@
         </div>
       </fieldset>
       <div class="mv2">
-        <button class="w-100" mat-stroked-button color="primary">Edit</button>
+        <button class="w-50" mat-stroked-button color="primary">Edit</button>
+        <button class="w-50" mat-stroked-button color="primary" routerLink="./parkingmanager">Cancel</button>
       </div>
     </form>
-  </main>
-
+  
   <footer class="pv4 ph3 ph5-m ph6-l mid-gray">
     <small class="f6 db tc"
       >© 2021 <b class="ttu">MechPark</b> All Rights Reserved</small
@@ -137,4 +143,4 @@
       >
     </div>
   </footer>
-</div>
+

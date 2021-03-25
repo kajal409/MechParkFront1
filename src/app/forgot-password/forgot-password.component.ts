@@ -51,7 +51,7 @@ export class ForgotPasswordComponent implements OnInit {
           });
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
           this._snackBar.open(`✗ Incorrect email`, '', {
             duration: 1500,
             horizontalPosition: 'right',
@@ -59,10 +59,10 @@ export class ForgotPasswordComponent implements OnInit {
             panelClass: 'snackbar-light-red'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         },
         () => {
-          console.log('Here it goes');
+          // console.log('Here it goes');
         }
       );
   }

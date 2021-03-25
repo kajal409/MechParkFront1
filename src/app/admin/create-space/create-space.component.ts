@@ -68,7 +68,7 @@ export class CreateSpaceComponent implements OnInit {
 
     this.garageService.getAll().subscribe((data) => {
       this.garages = data;
-      console.log(data);
+      // console.log(data);
     });
   }
 
@@ -80,7 +80,7 @@ export class CreateSpaceComponent implements OnInit {
     this.submitted = true;
 
     alert(JSON.stringify(this.createSpaceForm.value));
-    console.log(JSON.stringify(this.createSpaceForm.value));
+    // console.log(JSON.stringify(this.createSpaceForm.value));
 
     this.spaceService
       .create(this.createSpaceForm.value)
@@ -101,7 +101,7 @@ export class CreateSpaceComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

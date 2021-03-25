@@ -141,7 +141,7 @@ export class RegisterComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          console.log('User Registration Success');
+          // console.log('User Registration Success');
           this.router.navigate(['/login']);
         },
         (error) => {
@@ -151,7 +151,7 @@ export class RegisterComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

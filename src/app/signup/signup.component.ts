@@ -133,7 +133,7 @@ export class SignupComponent implements OnInit {
             panelClass: 'snackbar-light-red'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

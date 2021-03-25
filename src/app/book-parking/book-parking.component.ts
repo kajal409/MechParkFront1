@@ -128,7 +128,7 @@ export class BookParkingComponent implements OnInit {
     this.submitted = true;
 
     alert(JSON.stringify(this.bookParkingForm.value));
-    console.log(JSON.stringify(this.bookParkingForm.value));
+    // console.log(JSON.stringify(this.bookParkingForm.value));
 
     this.parkingService
       .book(this.bookParkingForm.value)
@@ -149,7 +149,7 @@ export class BookParkingComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

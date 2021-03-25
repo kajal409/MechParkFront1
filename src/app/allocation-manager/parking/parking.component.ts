@@ -76,7 +76,7 @@ export class ParkingComponent implements OnInit {
   }
 
   checkIn(id: number): void {
-    console.log(id);
+    // console.log(id);
     this.parkingService
       .systemCheckin(id)
       .pipe()
@@ -94,10 +94,10 @@ export class ParkingComponent implements OnInit {
               this.parkingSource = new MatTableDataSource<Parking>(parkings);
               this.parkingSource.paginator = this.paginator;
               this.parkingSource.sort = this.sort;
-              console.log(
-                '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
-                parkings
-              );
+              // console.log(
+              //   '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
+              //   parkings
+              // );
             });
         },
         (error) => {
@@ -124,10 +124,10 @@ export class ParkingComponent implements OnInit {
               this.parkingSource = new MatTableDataSource<Parking>(parkings);
               this.parkingSource.paginator = this.paginator;
               this.parkingSource.sort = this.sort;
-              console.log(
-                '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
-                parkings
-              );
+              // console.log(
+              //   '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
+              //   parkings
+              // );
             });
         },
         (error) => {
@@ -146,9 +146,6 @@ export class ParkingComponent implements OnInit {
           .pipe()
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
-            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
-            this.parkingSource.paginator = this.paginator;
-            this.parkingSource.sort = this.sort;
           });
       }
     });
@@ -157,7 +154,7 @@ export class ParkingComponent implements OnInit {
       .getAllocationManager(this.user.id)
       .subscribe((allocationManager) => {
         this.allocationManager = allocationManager;
-        console.log(this.allocationManager.id);
+        // console.log(this.allocationManager.id);
         this.spaceService
           .getByAllocationManager(this.allocationManager.id)
           .subscribe((spaces) => {
@@ -174,10 +171,10 @@ export class ParkingComponent implements OnInit {
             this.parkingSource = new MatTableDataSource<Parking>(parkings);
             this.parkingSource.paginator = this.paginator;
             this.parkingSource.sort = this.sort;
-            console.log(
-              '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
-              parkings
-            );
+            // console.log(
+            //   '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
+            //   parkings
+            // );
           });
       });
   }

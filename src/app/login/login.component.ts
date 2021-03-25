@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
           }
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
           this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
@@ -84,10 +84,10 @@ export class LoginComponent implements OnInit {
             panelClass: 'snackbar-light-red'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         },
         () => {
-          console.log('Here it goes');
+          // console.log('Here it goes');
         }
       );
   }

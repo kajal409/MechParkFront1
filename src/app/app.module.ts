@@ -36,6 +36,7 @@ import { BookParkingComponent } from './book-parking/book-parking.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { Error404Component } from './error404/error404.component';
+import { BookParkingslotComponent } from './book-parkingslot/book-parkingslot.component';
 // import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 // import { ParkingmanagerComponent } from './parkingmanager/parkingmanager.component';
 
@@ -54,7 +55,8 @@ import { Error404Component } from './error404/error404.component';
     EditSpaceComponent,
     BookParkingComponent,
     ReceiptComponent,
-    Error404Component
+    Error404Component,
+    BookParkingslotComponent
   ],
   imports: [
     BrowserModule,

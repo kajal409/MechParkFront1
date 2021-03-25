@@ -107,16 +107,16 @@ export class EditGarageComponent implements OnInit {
         .subscribe((x) => {
           this.parkingManager = x;
           this.garageId = this.parkingManager.garageId;
-          console.log(this.garageId);
+          // console.log(this.garageId);
           this.garageService
             .getById(this.garageId)
             .pipe()
             .subscribe((y) => {
-              console.log(y);
+              // console.log(y);
               this.garage = y;
               this.hasCleaningServiceFlag = this.garage.hasCleaningService;
               this.initialCleaningRate(this.garage.hasCleaningService);
-              console.log(this.garage.hasCleaningService);
+              // console.log(this.garage.hasCleaningService);
               this.editGarageForm.patchValue(y);
             });
         });
@@ -181,7 +181,7 @@ export class EditGarageComponent implements OnInit {
     this.submitted = true;
 
     alert(JSON.stringify(this.editGarageForm.value));
-    console.log(JSON.stringify(this.editGarageForm.value));
+    // console.log(JSON.stringify(this.editGarageForm.value));
 
     this.garageService
       .update(this.editGarageForm.value, this.garageId)
@@ -202,7 +202,7 @@ export class EditGarageComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

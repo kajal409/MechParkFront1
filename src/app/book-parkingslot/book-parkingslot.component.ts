@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
+
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
-import { Space } from 'src/app/_models/space';
-import { UserService } from 'src/app/_services/user.service';
-import { GarageService } from 'src/app/_services/garage.service';
-import { SpaceService } from 'src/app/_services/space.service';
-import { ParkingService } from 'src/app/_services/parking.service';
-import { Garage } from 'src/app/_models/garage';
-import { User } from 'src/app/_models/user';
+import { Space } from '../_models/space';
+import { UserService } from '../_services/user.service';
+import { GarageService } from '../_services/garage.service';
+import { SpaceService } from '../_services/space.service';
+import { ParkingService } from '../_services/parking.service';
+import { Garage } from '../_models/garage';
+import { User } from '../_models/user';
 
 @Component({
-  selector: 'app-book-parking',
-  templateUrl: './book-parking.component.html',
-  styleUrls: ['./book-parking.component.css']
+  selector: 'app-book-parkingslot',
+  templateUrl: './book-parkingslot.component.html',
+  styleUrls: ['./book-parkingslot.component.css']
 })
-export class BookParkingComponent implements OnInit {
+export class BookParkingslotComponent implements OnInit {
   bookParkingForm: FormGroup;
   submitted = false;
   user: User;
@@ -39,6 +39,7 @@ export class BookParkingComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router
   ) {}
+
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
       this.user = user;
@@ -58,46 +59,6 @@ export class BookParkingComponent implements OnInit {
 
     this.bookParkingForm.controls['withCleaningService'].setValue(false);
     this.withCleaningServiceFlag = false;
-  }
-
-  selectGarage(
-    id: number,
-    garageOccupiedCapacity: string,
-    garageTotalCapacity: string,
-    hasCleaningService: boolean
-  ): void {
-    if (this.selectedGarageId == id) {
-      this.selectedGarage = !this.selectedGarage;
-      this.bookParkingForm.controls['garageId'].reset();
-      this.bookParkingForm.controls['spaceId'].reset();
-      this.selectedGarageId = 0;
-      this.selectedSpaceId = 0;
-    } else {
-      this.selectedGarage = true;
-      // this.selectedGarageId = id;
-      this.bookParkingForm.controls['spaceId'].reset();
-      this.selectedSpaceId = 0;
-      if (garageOccupiedCapacity < garageTotalCapacity) {
-        this.selectedGarageId = id;
-        this.spaceService
-          .getByGarageId(this.selectedGarageId)
-          .subscribe((data) => {
-            this.spaces = data;
-          });
-        this.bookParkingForm.controls['garageId'].setValue(
-          this.selectedGarageId
-        );
-        this.hasCleaningService = hasCleaningService;
-        if (!hasCleaningService) {
-          this.bookParkingForm.controls[
-            'withCleaningService'
-          ].clearValidators();
-          this.bookParkingForm.controls['withCleaningService'].setValue(false);
-        }
-      } else {
-        this.selectedGarage = false;
-      }
-    }
   }
 
   selectSpace(
@@ -127,7 +88,7 @@ export class BookParkingComponent implements OnInit {
     this.submitted = true;
 
     alert(JSON.stringify(this.bookParkingForm.value));
-    // console.log(JSON.stringify(this.bookParkingForm.value));
+    console.log(JSON.stringify(this.bookParkingForm.value));
 
     this.parkingService
       .book(this.bookParkingForm.value)
@@ -139,7 +100,7 @@ export class BookParkingComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          this.router.navigate(['/user']);
+          this.router.navigate(['']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error}`, '', {
@@ -148,7 +109,7 @@ export class BookParkingComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          // console.log(error);
+          console.log(error);
         }
       );
   }

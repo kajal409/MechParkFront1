@@ -64,7 +64,7 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.userValue;
-    console.log(this.user);
+    // console.log(this.user);
     this.editUserForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -82,7 +82,7 @@ export class EditUserComponent implements OnInit {
       ]
     });
 
-    console.log(this.user.id);
+    // console.log(this.user.id);
 
     this.userService
       .getById(this.user.id)
@@ -95,6 +95,21 @@ export class EditUserComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value))
     );
+  }
+
+  cancel(): void {
+    if (this.user.role == 'Admin') {
+      this.router.navigate(['/admin']);
+    }
+    if (this.user.role == 'ParkingManager') {
+      this.router.navigate(['/parkingmanager']);
+    }
+    if (this.user.role == 'AllocationManager') {
+      this.router.navigate(['/allocationmanager']);
+    }
+    if (this.user.role == 'User') {
+      this.router.navigate(['/user']);
+    }
   }
 
   private _filter(value: string): string[] {
@@ -139,7 +154,7 @@ export class EditUserComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

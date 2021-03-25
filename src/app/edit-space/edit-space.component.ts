@@ -42,7 +42,7 @@ export class EditSpaceComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.spaceService.getById(this.id).subscribe((x) => {
       this.space = x;
-      console.log(x);
+      // console.log(x);
     });
     this.editSpaceForm = this.formBuilder.group({
       code: this.formBuilder.control('', [Validators.required]),
@@ -87,7 +87,7 @@ export class EditSpaceComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           this.onReset();
-          console.log(error);
+          // console.log(error);
         }
       );
   }

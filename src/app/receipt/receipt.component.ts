@@ -50,14 +50,14 @@ export class ReceiptComponent implements OnInit {
       };
       this.date = this.receipt.userCheckOut;
       this.formatDate = this.date;
-      console.log(
-        '🚀 ~ file: receipt.component.ts ~ line 54 ~ ReceiptComponent ~ this.parkingService.receipt ~ formatDate',
-        this.formatDate
-      );
-      console.log(
-        '🚀 ~ file: receipt.component.ts ~ line 45 ~ ReceiptComponent ~ this.parkingService.receipt ~ x',
-        x
-      );
+      // console.log(
+      //   '🚀 ~ file: receipt.component.ts ~ line 54 ~ ReceiptComponent ~ this.parkingService.receipt ~ formatDate',
+      //   this.formatDate
+      // );
+      // console.log(
+      //   '🚀 ~ file: receipt.component.ts ~ line 45 ~ ReceiptComponent ~ this.parkingService.receipt ~ x',
+      //   x
+      // );
     });
   }
 }
